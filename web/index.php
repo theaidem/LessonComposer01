@@ -6,40 +6,62 @@ $app = new Silex\Application();
 
 $app['debug'] = true;
 
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
+
 //И шаблонизатор Twig, который легко интегрируется в Silex
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__ . '/../views'
+	'twig.path' => __DIR__ . '/../views'
 ));
+
+// Глобальный мидлвер
+$app->before(function () use ($app) {
+	// Регистрируем главный лайаун для всех страниц
+	$app['twig']->addGlobal('layout', $app['twig']->loadTemplate('layout.twig'));
+});
 
 //При заходе в корень нашего сайта, сработает контроллер описанный в анонимной функции ниже
 $app->get('/', function() use ($app) {
 
-    //TimerClass определён в библиотеке super_lib.
-    //Благодаря сгенерированному autoloader.php нужный файл библиотеки подключится автоматически
-    $timer = new TimerClass();
+	$templateVars = array(
+		'title' => 'Home page',
+		'head' => 'Welcome to our site'
+	);
 
-    //Функция get_ip() определена в библиотеке super_lib.
-    //Благодаря сгенерированному autoloader.php нужный файл библиотеки подключится автоматически
-    $ip = get_ip();
+	//Рендрим шаблон и выводим его в браузер пользователя
+	return $app['twig']->render('index.twig', $templateVars);
 
-    $templateVars = array(
-        'msg' => 'Super Hello World',
-        'desc' => 'We are awesome developers',
-        'time' => $timer->getCurrentTime(),
-        'ip' => $ip
-    );
+})->bind('index');
 
-    //Рендрим шаблон и выводим его в браузер пользователя
-    return $app['twig']->render('layout.twig', $templateVars);
+$app->get('/about', function() use ($app) {
 
-});
+	$templateVars = array(
+		'title' => 'About us',
+		'head' => 'Who are we?'
+	);
+
+	//Рендрим шаблон и выводим его в браузер пользователя
+	return $app['twig']->render('about.twig', $templateVars);
+
+})->bind('about');
+
+$app->get('/contact', function() use ($app) {
+
+	$templateVars = array(
+		'title' => 'Contact page',
+		'head' => 'Where are we from?'
+	);
+
+	//Рендрим шаблон и выводим его в браузер пользователя
+	return $app['twig']->render('contact.twig', $templateVars);
+
+})->bind('contact');
 
 $app->finish(function() {
 
-    //Класс MyCompanyNamespace\SuperLogger определён в Composer-пакете mycompany/superlogger
-    //Благодаря сгенерированному autoloader.php нужный файл с описанием класса подключится автоматически
-    $logger = new MyCompanyNamespace\SuperLogger();
-    $logger->writeLog('log.txt', 'Someone visited the page');
+	//Класс MyCompanyNamespace\SuperLogger определён в Composer-пакете mycompany/superlogger
+	//Благодаря сгенерированному autoloader.php нужный файл с описанием класса подключится автоматически
+	$logger = new MyCompanyNamespace\SuperLogger();
+	$logger->writeLog('log.txt', 'Someone visited the page');
 
 });
 
