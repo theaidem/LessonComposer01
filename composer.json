@@ -1,0 +1,47 @@
+{
+	"require":{
+		"php":">=5.3.0",
+		"silex/silex":"1.3.x-dev",
+		"twig/twig":">=1.8,<2.0-dev",
+		"mycompany/superlogger":"dev-master",
+		"pqr/superlib":"1.2.3",
+		"smarty/smarty":"3.1.*"
+	},
+	"repositories":[
+		{
+			"type":"git",
+			"url":"https://github.com/pqr/superlogger"
+		},
+		{
+			"type":"package",
+			"package":{
+				"name": "pqr/superlib",
+				"version":"1.2.3",
+				"source":{
+					"type":"git",
+					"url":"https://github.com/pqr/superlib",
+					"reference": "master"
+				},
+				"autoload":{
+					"classmap":["timer.php"],
+					"files":["lib_functions.php"]
+				}
+			}
+		},{
+			"type":"package",
+			"package":{
+				"name":"smarty/smarty",
+				"version":"3.1.7",
+				"dist":{
+					"url":"http://www.smarty.net/files/Smarty-3.1.7.zip",
+					"type":"zip"
+				},
+				"source":{
+					"url":"http://smarty-php.googlecode.com/svn/",
+					"type":"svn",
+					"reference":"tags/Smarty_3_1_7/distribution/"
+				}
+			}
+		}
+	]
+}
