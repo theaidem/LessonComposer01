@@ -24,6 +24,7 @@ $app->get('/', function() use ($app) {
 
     $templateVars = array(
         'msg' => 'Super Hello World',
+        'desc' => 'We are awesome developers',
         'time' => $timer->getCurrentTime(),
         'ip' => $ip
     );
