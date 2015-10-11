@@ -4,6 +4,7 @@
 /.buildpath
 /composer.phar
 /vendor
+/web/log.txt
 /nbproject
 phpunit.xml
 .vagrant
