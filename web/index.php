@@ -13,9 +13,22 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 	'twig.path' => __DIR__ . '/../views'
 ));
 
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+	'dbs.options' => array (
+		'default' => array(
+				'driver'    => 'pdo_mysql',
+				'host'      => '172.17.0.2',
+				'dbname'    => 'silex_ex',
+				'user'      => 'root',
+				'password'  => 'root',
+				'charset'   => 'utf8',
+		),
+	),
+));
+
 // Глобальный мидлвер
 $app->before(function () use ($app) {
-	// Регистрируем главный лайаун для всех страниц
+	// Регистрируем главный лайауt для всех страниц
 	$app['twig']->addGlobal('layout', $app['twig']->loadTemplate('layout.twig'));
 });
 
@@ -55,6 +68,27 @@ $app->get('/contact', function() use ($app) {
 	return $app['twig']->render('contact.twig', $templateVars);
 
 })->bind('contact');
+
+$app->get('/blog', function () use ($app) {
+		$sql = "SELECT * FROM posts";
+		$posts = $app['db']->fetchAssoc($sql, array((int) $id));
+
+		if (!$posts) {
+			return  "<i>No posts</i>";
+		}
+
+		var_dump($posts);
+
+		return  "...";
+});
+
+$app->get('/blog/{id}', function ($id) use ($app) {
+		$sql = "SELECT * FROM posts WHERE id = ?";
+		$post = $app['db']->fetchAssoc($sql, array((int) $id));
+
+		return  "<h1>{$post['title']}</h1>".
+				"<p>{$post['content']}</p>";
+});
 
 $app->finish(function() {
 

@@ -5,7 +5,8 @@
 		"twig/twig":">=1.8,<2.0-dev",
 		"mycompany/superlogger":"dev-master",
 		"pqr/superlib":"1.2.3",
-		"smarty/smarty":"3.1.*"
+		"smarty/smarty":"3.1.*",
+		"doctrine/dbal": "~2.2"
 	},
 	"repositories":[
 		{

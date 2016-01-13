@@ -9,7 +9,7 @@ build:
 
 run:
 	@echo 'Run $(APP_CONTAINER) on $(APP_IMG)'
-	@sudo docker run -d -P -v $(PWD):/usr/src/$(APP_NAME) --name $(APP_CONTAINER) $(APP_IMG)
+	@sudo docker run -d -P -v $(PWD):/usr/src/$(APP_NAME) --link mysql --name $(APP_CONTAINER) $(APP_IMG)
 	@sudo docker ps -f name=$(APP_CONTAINER)
 
 start:
