@@ -7,15 +7,20 @@ ENV APP_NAME LessonComposer01
 COPY . /usr/src/"$APP_NAME"
 WORKDIR /usr/src/"$APP_NAME"
 
+
 RUN apt-get update && apt-get install -y \
+        g++ \
+        git \
         libfreetype6-dev \
-        libjpeg62-turbo-dev \
+        libjpeg62-turbo-dev \ 
+        zlib1g-dev \
+        libicu-dev \
         libmcrypt-dev \
         libpng12-dev \
         libpq-dev \
-        git \
     && docker-php-ext-install iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install gd \
     && docker-php-ext-install intl \
     && docker-php-ext-install mysqli \
